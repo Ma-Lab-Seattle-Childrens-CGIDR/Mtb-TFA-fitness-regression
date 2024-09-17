@@ -1,11 +1,6 @@
-FROM r-minimal:devel
-
-RUN installr -d doParallel doRNG GENIE3 optparse
+FROM ethanbustadscri/genie3:0.1
 
 WORKDIR /root
-
-RUN mkdir /root/mount
-VOLUME /root/mount
 
 ADD genie3_execute.R genie3_execute.R
 
