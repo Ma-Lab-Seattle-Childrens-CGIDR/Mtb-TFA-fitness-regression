@@ -96,19 +96,19 @@ else:
 # -----------------------------------------------------------
 
 
-# def timeit(start):
-#     end = time.time()
-#     t = end - start
-#     if t < 60:
-#         print("{:.2f} seconds elapsed".format(t))
-#     elif t < 3600:
-#         print("{:.2f} minutes elapsed".format(t / 60))
-#     else:
-#         print("{:.2f} hours elapsed".format(t / 3600))
-#     return end
+def timeit(start):
+    end = time.time()
+    t = end - start
+    if t < 60:
+        print("{:.2f} seconds elapsed".format(t))
+    elif t < 3600:
+        print("{:.2f} minutes elapsed".format(t / 60))
+    else:
+        print("{:.2f} hours elapsed".format(t / 3600))
+    return end
 
 
-# t = time.time()
+t = time.time()
 
 # -----------------------------------------------------------
 # Load Data
@@ -151,30 +151,33 @@ A = []
 
 # t1 = time.time()
 
-for counter, i in enumerate(worker_tasks[rank]):
-    ica = FastICA(whiten=True, max_iter=int(1e10), tol=tol, n_components=k_comp)
-    S.append(pd.DataFrame(ica.fit_transform(X), index=X.index))
-    A.append(pd.DataFrame(ica.mixing_, index=X.columns))
-    if rank == 0:
-        print(
-            "Completed run {} of {} on Processor {}".format(counter + 1, n_tasks, rank)
-        )
-        t = timeit(t)
+# for counter, i in enumerate(worker_tasks[rank]):
+ica = FastICA(whiten=True, max_iter=int(1e10), tol=tol, n_components=k_comp)
+S.append(pd.DataFrame(ica.fit_transform(X), index=X.index))
+A.append(pd.DataFrame(ica.mixing_, index=X.columns))
+# if rank == 0:
+#     print(
+#         "Completed run {} of {} on Processor {}".format(counter + 1, n_tasks, rank)
+#     )
+#     t = timeit(t)
 
-S_all = pd.concat(S, axis=1)
-S_all.columns = range(S_all.shape[1])
-S_all.to_csv(os.path.join(tmp_dir, "proc_{}_S.csv".format(rank)))
-A_all = pd.concat(A, axis=1)
-A_all.columns = range(A_all.shape[1])
-A_all.to_csv(os.path.join(tmp_dir, "proc_{}_A.csv".format(rank)))
+# S_all = pd.concat(S, axis=1)
+# S_all.columns = range(S_all.shape[1])
+# S_all.to_csv(os.path.join(tmp_dir, "proc_{}_S.csv".format(rank)))
+# A_all = pd.concat(A, axis=1)
+# A_all.columns = range(A_all.shape[1])
+# A_all.to_csv(os.path.join(tmp_dir, "proc_{}_A.csv".format(rank)))
 
-# Wait for processors to finish
-if rank == 0:
-    test = 1
-else:
-    test = 0
-test = comm.bcast(test, root=0)
+S.to_csv(os.path.join(tmp_dir, "proc_{}_S.csv".format(0)))
+A.to_csv(os.path.join(tmp_dir, "proc_{}_A.csv".format(0)))
 
-if rank == 0:
-    print("\nAll ICA runs complete!")
-    timeit(t1)
+# # Wait for processors to finish
+# if rank == 0:
+#     test = 1
+# else:
+#     test = 0
+# test = comm.bcast(test, root=0)
+
+# if rank == 0:
+#     print("\nAll ICA runs complete!")
+#     timeit(t1)

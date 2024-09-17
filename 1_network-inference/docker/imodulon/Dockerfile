@@ -2,14 +2,10 @@ FROM avsastry/modulome-workflow:v1.0
 
 USER root
 
-RUN apt-get update
-RUN apt-get -y install datamash
+RUN mkdir /root/mount
+VOLUME /root/mount
 
-USER $NB_USER
+WORKDIR /home/jovyan
+ADD imodulon_execute2.py imodulon_execute2.py
 
-RUN mkdir /home/$NB_USER/mount
-VOLUME /home/$NB_USER/mount
-
-ADD imodulon_execute.sh imodulon_execute.sh
-
-ENTRYPOINT ["./imodulon_execute.sh"]
+ENTRYPOINT ["python3", "imodulon_execute2.py"]
