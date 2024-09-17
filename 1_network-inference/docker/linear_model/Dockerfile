@@ -5,8 +5,8 @@ RUN apk add --no-cache gcc g++ libc-dev
 RUN python -m pip install 'joblib >= 1.2.0' \
                           'numpy >= 1.19' \
                           'pandas >= 2.2, < 3' \
-                          'scikit-learn == 1.4.0' \
                           'scipy >= 1.6.0' \
+                          'statsmodels >= 0.14.0' \
                           'threadpoolctl >= 2.0.0'
 
 # ---------------------------------------- #

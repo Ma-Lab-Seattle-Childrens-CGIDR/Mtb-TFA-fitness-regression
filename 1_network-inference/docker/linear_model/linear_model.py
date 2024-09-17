@@ -10,21 +10,22 @@ import warnings
 warnings.filterwarnings("ignore", "\nPyarrow", DeprecationWarning)
 import pandas as pd
 
-from sklearn.exceptions import ConvergenceWarning
-import sklearn.linear_model as skllm
+import statsmodels.api as sm
+from statsmodels.tools import add_constant
 
 def regress(tf_expr_df, gene, gene_expr, n_cores=4, verbosity=0):
 
 	x = tf_expr_df.to_numpy(dtype=np.float64)
-
-	# re-scale phenotypes to make coefficients comparable across phenotypes
-	gene_expr = (gene_expr - gene_expr.mean(axis=0)) / gene_expr.std(axis=0)
 	y = gene_expr.to_numpy(dtype=np.float64)
 
-	regression = skllm.LinearRegression(copy_X=False, n_jobs=n_cores).fit(x, y)
+	# regression = skllm.LinearRegression(copy_X=False, n_jobs=n_cores).fit(x, y)
+	model = sm.OLS(y, add_constant(x), hasconst=True)
+	fit = model.fit()
+	summary = fit.summary()
 
-	coefs = regression.coef_
-	r_squared = regression.score(x, y)
+	coefs = fit.resid
+	r_squared = fit.rsquared
+	p_vals = fit.pvalues
 
 	predictor_columns = tf_expr_df.columns.to_series().to_numpy()
 
@@ -37,7 +38,7 @@ def regress(tf_expr_df, gene, gene_expr, n_cores=4, verbosity=0):
 	elif verbosity >= 2:
 		print(f'Model for {gene} completed (R^2={r_squared:.2f}).')
 
-	return predictor_columns, coefs, r_squared
+	return predictor_columns, coefs, p_vals, r_squared
 
 #
 # main
@@ -80,15 +81,16 @@ def main(expression_file, regulators_file, out_file, expression_sep='\t', n_core
 	associations = []
 
 	for gene in expression_df.columns:
-		assoc_tfs, coefs, r_squared = regress(regulators_df.drop(columns=gene, errors='ignore'),
+		assoc_tfs, coefs, p_vals, r_squared = regress(regulators_df.drop(columns=gene, errors='ignore'),
 			gene, expression_df[gene], n_cores=4, verbosity=verbosity)
 
-		for tf, coef in zip(assoc_tfs, coefs):
-			associations.append((tf, gene, coef, r_squared))
+		for tf, coef, p_val in zip(assoc_tfs, coefs, p_vals):
+			associations.append((tf, gene, coef, p_val, r_squared))
 
-	results_df = pd.DataFrame(data=associations, columns=['Regulator', 'Gene', 'Coef', 'R_squared'])
+	results_df = pd.DataFrame(
+		data=associations, columns=['Regulator', 'Gene', 'Coef', 'p-val', 'R_squared'])
 
-	results_df.to_csv(out_file, sep='\t', header=False, index=False)
+	results_df.to_csv(out_file, sep='\t', index=False)
 
 	if verbosity >= 1:
 		print(f'Results written to file {out_file}.')
