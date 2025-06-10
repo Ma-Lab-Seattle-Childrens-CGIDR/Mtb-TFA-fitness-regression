@@ -4,4 +4,4 @@ This repository contains code relevant to inferring the transcriptional regulato
 
 # Reference
 
-Bustad E, Petry E, Gu O, Griebel BT, Rustad TR, Sherman DR, Yang JH, Ma S. Predicting fitness in Mycobacterium tuberculosis with transcriptional regulatory network-informed interpretable machine learning. Front Tuberculosis. 2024 Apr 1; Volume 3. doi: [10.3389/ftubr.2025.1500899](https://doi.org/10.3389/ftubr.2025.1500899). PMID: [39386570](https://pubmed.ncbi.nlm.nih.gov/39386570/); PMCID [PMC11463588](https://pmc.ncbi.nlm.nih.gov/articles/PMC11463588/).
+Bustad E, Petry E, Gu O, Griebel BT, Rustad TR, Sherman DR, Yang JH, Ma S. Predicting fitness in Mycobacterium tuberculosis with transcriptional regulatory network-informed interpretable machine learning. Front Tuberculosis. 2025 Apr 1; Volume 3. doi: [10.3389/ftubr.2025.1500899](https://doi.org/10.3389/ftubr.2025.1500899). PMID: [39386570](https://pubmed.ncbi.nlm.nih.gov/39386570/); PMCID [PMC11463588](https://pmc.ncbi.nlm.nih.gov/articles/PMC11463588/).
