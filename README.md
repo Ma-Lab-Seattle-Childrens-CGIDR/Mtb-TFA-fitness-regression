@@ -4,4 +4,4 @@ This repository contains code relevant to inferring the transcriptional regulato
 
 # Reference
 
-Bustad E, Mudrock E, Nilles EM, Mcquate A, Bergado M, Gu A, Galitan L, Gleason N, Ou HC, Raible DW, Hernandez RE, Ma S. In vivo screening for toxicity-modulating drug interactions identifies antagonism that protects against ototoxicity in zebrafish. Front Pharmacol. 2024 Mar 7;15:1363545. doi: [10.3389/fphar.2024.1363545](https://doi.org/10.3389/fphar.2024.1363545). PMID: [38515847](https://pubmed.ncbi.nlm.nih.gov/38515847/); PMCID: [PMC10955247](https://pmc.ncbi.nlm.nih.gov/articles/PMC10955247).
+Bustad E, Petry E, Gu O, Griebel BT, Rustad TR, Sherman DR, Yang JH, Ma S. Predicting fitness in Mycobacterium tuberculosis with transcriptional regulatory network-informed interpretable machine learning. Front Tuberculosis. 2024 Apr 1; Volume 3. doi: [10.3389/ftubr.2025.1500899](https://doi.org/10.3389/ftubr.2025.1500899). PMID: [39386570](https://pubmed.ncbi.nlm.nih.gov/39386570/); PMCID [PMC11463588](https://pmc.ncbi.nlm.nih.gov/articles/PMC11463588/).
